@@ -16,6 +16,7 @@ public class GameClient extends JComponent {
                 400,200,null);
     }
 
+
     public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.setTitle("DIY好玩无用的小游戏");
