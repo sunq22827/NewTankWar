@@ -93,6 +93,7 @@ public class Tank {
     }
 
     void draw (Graphics g){
+        int oldX = x, oldY = y;
         this.determineDirection();
         this.move();
 
@@ -101,7 +102,19 @@ public class Tank {
         if (y<0) y=0;
         else if (y>600 - getImage().getHeight(null)) y=600 -getImage().getHeight(null);
 
+        Rectangle rec = this.getRectangle();
+        for (Wall wall: GameClient.getInstance().getWalls()) {
+            if(rec.intersects(wall.getRectangle())){
+                x = oldX;
+                y = oldY;
+                break;
+            }
+        }
         g.drawImage(this.getImage(), this.x,this.y,null);
+    }
+
+    private Rectangle getRectangle() {
+        return new Rectangle(x,y,getImage().getHeight(null),getImage().getWidth(null));
     }
 
     public void keyPressed(KeyEvent e) {

@@ -11,18 +11,26 @@ import java.util.List;
 
 public class GameClient extends JComponent {
 
+    private static final GameClient INSTANCE = new GameClient();
+    public static GameClient getInstance(){
+        return INSTANCE;
+    }
     private Tank playerTank;
     private List<Tank> enemyTanks;
     private List<Wall> walls;
+
+    public List<Wall> getWalls() {
+        return walls;
+    }
 
     public GameClient() {
         this.playerTank = new Tank(400,200,Direction.DOWN,false);
         this.enemyTanks = new ArrayList<>(18);
         this.walls = Arrays.asList(
-                new Wall(150, 60, true, 18),
-                new Wall(150, 550, true, 18),
-                new Wall(80, 80, false, 16),
-                new Wall(720, 80, false, 16)
+                new Wall(150, 40, true, 18),
+                new Wall(150, 530, true, 18),
+                new Wall(80, 60, false, 16),
+                new Wall(730, 60, false, 16)
         );
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 6; j++) {
@@ -30,6 +38,7 @@ public class GameClient extends JComponent {
             }
         }
         this.setPreferredSize(new Dimension(800,600));
+
     }
 
     @Override
