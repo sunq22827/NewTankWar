@@ -19,6 +19,10 @@ public class GameClient extends JComponent {
     private List<Tank> enemyTanks;
     private List<Wall> walls;
 
+    public List<Tank> getEnemyTanks() {
+        return enemyTanks;
+    }
+
     public List<Wall> getWalls() {
         return walls;
     }
