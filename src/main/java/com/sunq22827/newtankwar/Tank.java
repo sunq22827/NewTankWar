@@ -4,41 +4,25 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-public class Tank {
+class Tank {
     private  int x;
     private  int y;
     private Direction direction;
     private boolean up, down , left, right;
     private boolean enemy;
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
     public Tank(int x, int y, Direction direction) {
         this(x,y, direction, false);
     }
 
-    public Tank(int x, int y, Direction direction, boolean enemy) {
+    Tank(int x, int y, Direction direction, boolean enemy) {
         this.x = x;
         this.y = y;
         this.direction = direction;
         this.enemy = enemy;
     }
 
-    void move(){
+    private void move(){
         if(this.stopped) return;
         switch (direction){
             case UP:
@@ -125,16 +109,23 @@ public class Tank {
         return new Rectangle(x,y,getImage().getHeight(null),getImage().getWidth(null));
     }
 
-    public void keyPressed(KeyEvent e) {
+    void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()){
             case KeyEvent.VK_UP: up = true; break;
             case KeyEvent.VK_DOWN: down = true; break;
             case KeyEvent.VK_LEFT: left = true; break;
             case KeyEvent.VK_RIGHT: right = true; break;
+            case KeyEvent.VK_CONTROL: fire(); break;
         }
     }
 
-    public void keyReleased(KeyEvent e) {
+    private void fire() {
+        Missile missile = new Missile(x+ getImage().getWidth(null)/2 - 6,
+                y+ getImage().getHeight(null)/2 -6,enemy,direction);
+        GameClient.getInstance().getMissiles().add(missile);
+    }
+
+    void keyReleased(KeyEvent e) {
         switch (e.getKeyCode()){
             case KeyEvent.VK_UP: up = false; break;
             case KeyEvent.VK_DOWN: down = false; break;

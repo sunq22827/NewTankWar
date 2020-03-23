@@ -1,9 +1,8 @@
 package com.sunq22827.newtankwar;
 
-import javax.swing.*;
 import java.awt.*;
 
-public class Wall {
+class Wall {
     private int x;
     private int y;
 
@@ -11,7 +10,7 @@ public class Wall {
     private int bricks;
     private final Image brickImage;
 
-    public Wall(int x, int y, boolean horizontal, int bricks) {
+    Wall(int x, int y, boolean horizontal, int bricks) {
         this.brickImage = Tools.getImage("brick.png");
         this.x = x;
         this.y = y;
@@ -19,13 +18,13 @@ public class Wall {
         this.bricks = bricks;
     }
 
-    public Rectangle getRectangle() {
+    Rectangle getRectangle() {
         return horizontal ? new Rectangle(x,y,bricks*brickImage.getWidth(null),
                 brickImage.getHeight(null)): new Rectangle(x,y,brickImage.getWidth(null),
                 bricks*brickImage.getHeight(null));
     }
 
-    public void draw(Graphics g) {
+    void draw(Graphics g) {
         if (horizontal) {
             for (int i = 0; i < bricks; i++) {
                 g.drawImage(brickImage, x + i * brickImage.getWidth(null), y, null);

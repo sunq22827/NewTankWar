@@ -4,12 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GameClient extends JComponent {
+class GameClient extends JComponent {
 
     private static final GameClient INSTANCE = new GameClient();
     public static GameClient getInstance(){
@@ -18,18 +17,24 @@ public class GameClient extends JComponent {
     private Tank playerTank;
     private List<Tank> enemyTanks;
     private List<Wall> walls;
+    private List<Missile> missiles;
 
-    public List<Tank> getEnemyTanks() {
+    List<Tank> getEnemyTanks() {
         return enemyTanks;
     }
 
-    public List<Wall> getWalls() {
+    List<Wall> getWalls() {
         return walls;
     }
 
-    public GameClient() {
+    List<Missile> getMissiles() {
+        return missiles;
+    }
+
+    GameClient() {
         this.playerTank = new Tank(400,200,Direction.DOWN,false);
         this.enemyTanks = new ArrayList<>(18);
+        this.missiles = new ArrayList<>();
         this.walls = Arrays.asList(
                 new Wall(150, 40, true, 18),
                 new Wall(150, 530, true, 18),
@@ -50,11 +55,15 @@ public class GameClient extends JComponent {
         g.setColor(Color.BLACK);
         g.fillRect(0,0,800,600);
         playerTank.draw(g);
+
         for(Tank tank: enemyTanks){
             tank.draw(g);
         }
         for(Wall wall: walls){
             wall.draw(g);
+        }
+        for(Missile missile: missiles){
+            missile.draw(g);
         }
     }
 
@@ -63,7 +72,7 @@ public class GameClient extends JComponent {
         JFrame frame = new JFrame();
         frame.setTitle("DIY好玩无用的小游戏");
         frame.setIconImage(new ImageIcon("assets/images/icon.png").getImage());
-        final GameClient client = new GameClient();
+        final GameClient client = GameClient.getInstance();
         frame.add(client);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
@@ -79,9 +88,11 @@ public class GameClient extends JComponent {
                 client.playerTank.keyReleased(e);
             }
         });
+
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
+        //noinspection InfiniteLoopStatement
         while (true){
             client.repaint();
             try {
