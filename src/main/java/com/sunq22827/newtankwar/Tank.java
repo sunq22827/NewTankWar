@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.Random;
 
 class Tank {
     private  int x;
@@ -120,7 +121,21 @@ class Tank {
             case KeyEvent.VK_LEFT: left = true; break;
             case KeyEvent.VK_RIGHT: right = true; break;
             case KeyEvent.VK_CONTROL: fire(); break;
+            case KeyEvent.VK_A: superFire();break;
         }
+    }
+
+    private void superFire() {
+        for(Direction direction: Direction.values()){
+            Missile missile = new Missile(x+ getImage().getWidth(null)/2 - 6,
+                    y+ getImage().getHeight(null)/2 -6,enemy,direction);
+            GameClient.getInstance().getMissiles().add(missile);
+        }
+
+        String audioFile = new Random().nextBoolean() ? "supershoot.aiff": "supershoot.wav";
+        Media sound = new Media(new File("assets/audios/" + audioFile).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
     }
 
     private void fire() {
@@ -142,6 +157,7 @@ class Tank {
         }
 
     }
+
 
     private boolean stopped;
     private void determineDirection(){
