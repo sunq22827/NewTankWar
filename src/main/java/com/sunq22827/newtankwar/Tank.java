@@ -16,8 +16,33 @@ class Tank {
     private Direction direction;
     private boolean up, down , left, right;
     private boolean enemy;
+    private boolean live = true;
 
-    public Tank(int x, int y, Direction direction) {
+    private int hp = 100;
+
+    int getHp() {
+        return hp;
+    }
+
+    void setHp(int hp) {
+        this.hp = hp;
+    }
+
+    boolean isLive() {
+        return live;
+    }
+
+    void setLive(boolean live) {
+        this.live = live;
+    }
+
+    boolean isEnemy() {
+        return enemy;
+    }
+
+
+
+    Tank(int x, int y, Direction direction) {
         this(x,y, direction, false);
     }
 
@@ -68,8 +93,10 @@ class Tank {
         g.drawImage(this.getImage(), this.x,this.y,null);
     }
 
-    private Rectangle getRectangle() {
-        return new Rectangle(x,y,getImage().getHeight(null),getImage().getWidth(null));
+    Rectangle getRectangle() {
+        return new Rectangle(x,y,
+                getImage().getHeight(null),
+                getImage().getWidth(null));
     }
 
     void keyPressed(KeyEvent e) {
@@ -138,4 +165,5 @@ class Tank {
         }
 
     }
+
 }

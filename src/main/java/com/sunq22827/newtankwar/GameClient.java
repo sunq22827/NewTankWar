@@ -19,6 +19,14 @@ class GameClient extends JComponent {
     private List<Wall> walls;
     private List<Missile> missiles;
 
+    synchronized void add(Missile missile){
+        missiles.add(missile);
+    }
+
+    Tank getPlayerTank() {
+        return playerTank;
+    }
+
     List<Tank> getEnemyTanks() {
         return enemyTanks;
     }
@@ -33,7 +41,6 @@ class GameClient extends JComponent {
 
     GameClient() {
         this.playerTank = new Tank(400,200,Direction.DOWN,false);
-        this.enemyTanks = new ArrayList<>(18);
         this.missiles = new ArrayList<>();
         this.walls = Arrays.asList(
                 new Wall(150, 40, true, 18),
@@ -41,13 +48,20 @@ class GameClient extends JComponent {
                 new Wall(80, 60, false, 16),
                 new Wall(730, 60, false, 16)
         );
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 6; j++) {
-                this.enemyTanks.add(new Tank(150+100*j,400+40*i,Direction.UP,true));
-            }
-        }
+
+        this.initEnemyTanks();
+
         this.setPreferredSize(new Dimension(800,600));
 
+    }
+
+    private void initEnemyTanks() {
+        this.enemyTanks = new ArrayList<>(18);
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 6; j++) {
+                this.enemyTanks.add(new Tank(150+100*j,400+40*i, Direction.UP,true));
+            }
+        }
     }
 
     @Override
@@ -56,11 +70,17 @@ class GameClient extends JComponent {
         g.fillRect(0,0,800,600);
         playerTank.draw(g);
 
+        enemyTanks.removeIf(t -> !t.isLive());
         for(Tank tank: enemyTanks){
             tank.draw(g);
         }
         for(Wall wall: walls){
             wall.draw(g);
+        }
+
+        missiles.removeIf(m ->!m.isLive());
+        if(enemyTanks.isEmpty()){
+            this.initEnemyTanks();
         }
         for(Missile missile: missiles){
             missile.draw(g);
@@ -103,5 +123,6 @@ class GameClient extends JComponent {
             }
         }
     }
+
 
 }
