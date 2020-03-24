@@ -33,25 +33,25 @@ class Tank {
             case UP:
                 y-=5;
                 break;
-            case UPLEFT:
+            case LEFT_UP:
                 x-=5; y-=5;
                 break;
             case LEFT:
                 x-=5;
                 break;
-            case DOWNLEFT:
+            case LEFT_DOWN:
                 x-=5; y+=5;
                 break;
             case DOWN:
                 y+=5;
                 break;
-            case DOWNRIGHT:
+            case RIGHT_DOWN:
                 x+=5; y+=5;
                 break;
             case RIGHT:
                 x+=5;
                 break;
-            case UPRIGHT:
+            case RIGHT_UP:
                 x+=5;y-=5;
                 break;
 
@@ -60,25 +60,7 @@ class Tank {
 
     Image getImage(){
         String prefix = enemy ? "e" : "";
-        switch (direction){
-            case UP:
-                return new ImageIcon("assets/images/"+ prefix +"tankU.gif").getImage();
-            case UPLEFT:
-                return new ImageIcon("assets/images/"+ prefix +"tankLU.gif").getImage();
-            case LEFT:
-                return new ImageIcon("assets/images/"+ prefix +"tankL.gif").getImage();
-            case DOWNLEFT:
-                return new ImageIcon("assets/images/"+ prefix +"tankLD.gif").getImage();
-            case DOWN:
-                return new ImageIcon("assets/images/"+ prefix +"tankD.gif").getImage();
-            case DOWNRIGHT:
-                return new ImageIcon("assets/images/"+ prefix +"tankRD.gif").getImage();
-            case RIGHT:
-                return new ImageIcon("assets/images/"+ prefix +"tankR.gif").getImage();
-            case UPRIGHT:
-                return new ImageIcon("assets/images/"+ prefix +"tankRU.gif").getImage();
-        }
-        return null;
+        return direction.getImage(prefix + "tank");
     }
 
     void draw (Graphics g){
@@ -168,13 +150,13 @@ class Tank {
             this.stopped = true;
         }else {
             if (up && !left && !down && !right) this.direction = Direction.UP;
-            else if (up && left && !down && !right) this.direction = Direction.UPLEFT;
+            else if (up && left && !down && !right) this.direction = Direction.LEFT_UP;
             else if (!up && left && !down && !right) this.direction = Direction.LEFT;
-            else if (!up && left && down && !right) this.direction = Direction.DOWNLEFT;
+            else if (!up && left && down && !right) this.direction = Direction.LEFT_DOWN;
             else if (!up && !left && down && !right) this.direction = Direction.DOWN;
-            else if (!up && !left && down && right) this.direction = Direction.DOWNRIGHT;
+            else if (!up && !left && down && right) this.direction = Direction.RIGHT_DOWN;
             else if (!up && !left && !down && right) this.direction = Direction.RIGHT;
-            else if (up && !left && !down && right) this.direction = Direction.UPRIGHT;
+            else if (up && !left && !down && right) this.direction = Direction.RIGHT_UP;
 
             this.stopped = false;
         }
