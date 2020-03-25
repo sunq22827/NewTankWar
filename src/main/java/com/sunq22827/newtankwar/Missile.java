@@ -55,7 +55,7 @@ public class Missile {
 
         if(enemy){
             Tank playerTank = GameClient.getInstance().getPlayerTank();
-                if(rectangle.intersects(playerTank.getRectangle())){
+                if(rectangle.intersects(playerTank.getRectangleForHitDetection())){
                     addExplosion();
                     playerTank.setHp(playerTank.getHp()- 20);
                     if(playerTank.getHp() <= 0){
@@ -66,7 +66,7 @@ public class Missile {
 
         } else {
             for(Tank tank: GameClient.getInstance().getEnemyTanks()){
-                if(rectangle.intersects(tank.getRectangle())){
+                if(rectangle.intersects(tank.getRectangleForHitDetection())){
                     addExplosion();
                     tank.setLive(false);
                     this.setLive(false);

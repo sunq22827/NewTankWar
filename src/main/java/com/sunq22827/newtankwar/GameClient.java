@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -22,6 +23,12 @@ class GameClient extends JComponent {
     private List<Wall> walls;
     private List<Missile> missiles;
     private List<Explosion> explosions;
+    private Blood blood;
+
+    private  static  final Random RANDOM = new Random();
+    Blood getBlood() {
+        return blood;
+    }
 
     void addExplosion(Explosion explosion){
         explosions.add(explosion);
@@ -51,6 +58,7 @@ class GameClient extends JComponent {
         this.playerTank = new Tank(400,200,Direction.DOWN,false);
         this.missiles = new CopyOnWriteArrayList<>();
         this.explosions = new ArrayList<>();
+        this.blood = new Blood(400,300);
         this.walls = Arrays.asList(
                 new Wall(180, 40, true, 17),
                 new Wall(180, 530, true, 17),
@@ -97,6 +105,12 @@ class GameClient extends JComponent {
             g.drawImage(Tools.getImage("tree.png"),10,510,null);
 
             playerTank.draw(g);
+            if(playerTank.isDying() && RANDOM.nextInt(4) < 2){
+               blood.setLive(true);
+            }
+            if(blood.isLive()){
+                blood.draw(g);
+            }
 
             int count = enemyTanks.size();
             enemyTanks.removeIf(t -> !t.isLive());
